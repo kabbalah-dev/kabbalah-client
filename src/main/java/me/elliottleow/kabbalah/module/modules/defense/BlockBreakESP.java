@@ -1,61 +1,51 @@
 package me.elliottleow.kabbalah.module.modules.defense;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.lwjgl.input.Keyboard;
-
 import me.elliottleow.kabbalah.api.util.HypixelUtil;
 import me.elliottleow.kabbalah.api.util.RenderUtils;
 import me.elliottleow.kabbalah.module.Category;
 import me.elliottleow.kabbalah.module.Module;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.lwjgl.input.Keyboard;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class BlockBreakESP extends Module {
-	public BlockBreakESP() {
-		super("BlockBreakESP", "Outlines broken blocks", Category.DEFENSE);
-		this.setKey(Keyboard.KEY_Z);
-	}
-	
-	HashMap<BlockPos,Integer> positions = new HashMap<BlockPos,Integer>();
-	
-	@SubscribeEvent
-	public void onBlockBreak(BlockEvent.BreakEvent e) {
-		positions.put(e.pos, HypixelUtil.isTunnel(e.pos));
-		if (positions.containsKey(new BlockPos(e.pos.getX(), e.pos.getY()-1, e.pos.getZ()))
-				&& positions.get(e.pos) == 1) {
-			positions.replace(new BlockPos(e.pos.getX(), e.pos.getY()-1, e.pos.getZ()), 1);
-		}
-		
-		
-		
-		if (Minecraft.getMinecraft().theWorld.isAirBlock(new BlockPos(e.pos.getX(), e.pos.getY()+1, e.pos.getZ()))
-				&& positions.containsKey(new BlockPos(e.pos.getX(), e.pos.getY()+1, e.pos.getZ()))
-				&& HypixelUtil.isTunnel(new BlockPos(e.pos.getX(), e.pos.getY()+1, e.pos.getZ())) == 1
-				&& !Minecraft.getMinecraft().theWorld.isAirBlock(new BlockPos(e.pos.getX(), e.pos.getY()+2, e.pos.getZ()))) {
-			positions.replace(new BlockPos(e.pos.getX(), e.pos.getY()+1, e.pos.getZ()),1);
-			positions.replace(e.pos, 1);
-		}
-		
-		
-		
-		
-	}
-	
-	
-	
-	@SubscribeEvent
-	public void onBlockPlace(BlockEvent.PlaceEvent e) {
-		BlockPos block = e.pos;
+    HashMap<BlockPos, Integer> positions = new HashMap<BlockPos, Integer>();
+
+    public BlockBreakESP() {
+        super("BlockBreakESP", "Outlines broken blocks", Category.DEFENSE);
+        this.setKey(Keyboard.KEY_Z);
+    }
+
+    @SubscribeEvent
+    public void onBlockBreak(BlockEvent.BreakEvent e) {
+        positions.put(e.pos, HypixelUtil.isTunnel(e.pos));
+        if (positions.containsKey(new BlockPos(e.pos.getX(), e.pos.getY() - 1, e.pos.getZ()))
+                && positions.get(e.pos) == 1) {
+            positions.replace(new BlockPos(e.pos.getX(), e.pos.getY() - 1, e.pos.getZ()), 1);
+        }
+
+
+        if (Minecraft.getMinecraft().theWorld.isAirBlock(new BlockPos(e.pos.getX(), e.pos.getY() + 1, e.pos.getZ()))
+                && positions.containsKey(new BlockPos(e.pos.getX(), e.pos.getY() + 1, e.pos.getZ()))
+                && HypixelUtil.isTunnel(new BlockPos(e.pos.getX(), e.pos.getY() + 1, e.pos.getZ())) == 1
+                && !Minecraft.getMinecraft().theWorld.isAirBlock(new BlockPos(e.pos.getX(), e.pos.getY() + 2, e.pos.getZ()))) {
+            positions.replace(new BlockPos(e.pos.getX(), e.pos.getY() + 1, e.pos.getZ()), 1);
+            positions.replace(e.pos, 1);
+        }
+
+
+    }
+
+
+    @SubscribeEvent
+    public void onBlockPlace(BlockEvent.PlaceEvent e) {
+        BlockPos block = e.pos;
 //		if (e.)
 //		if (e.face.equals(EnumFacing.NORTH)) {
 //			block = new BlockPos(e.pos.getX(), e.pos.getY(), e.pos.getZ()-1);
@@ -75,20 +65,20 @@ public class BlockBreakESP extends Module {
 //		else if (e.face.equals(EnumFacing.DOWN)) {
 //			block = new BlockPos(e.pos.getX(), e.pos.getY()-1, e.pos.getZ());
 //		}
-		if (positions.containsKey(block)) positions.remove(block);
-		
-	}
-	
-	@SubscribeEvent
-	public void onRender(final RenderWorldLastEvent event) {
-		try {
-			for (Entry<BlockPos, Integer> entry : positions.entrySet()) {
-				//int tunnelSeverity = HypixelUtil.isTunnel(entry.getKey());
-				RenderUtils.blockESPBox(entry.getKey(), entry.getValue());
-				
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
+        positions.remove(block);
+
+    }
+
+    @SubscribeEvent
+    public void onRender(final RenderWorldLastEvent event) {
+        try {
+            for (Entry<BlockPos, Integer> entry : positions.entrySet()) {
+                //int tunnelSeverity = HypixelUtil.isTunnel(entry.getKey());
+                RenderUtils.blockESPBox(entry.getKey(), entry.getValue());
+
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 }

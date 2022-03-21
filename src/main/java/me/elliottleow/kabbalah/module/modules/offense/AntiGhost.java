@@ -1,7 +1,5 @@
 package me.elliottleow.kabbalah.module.modules.offense;
 
-import org.lwjgl.input.Keyboard;
-
 import me.elliottleow.kabbalah.module.Category;
 import me.elliottleow.kabbalah.module.Module;
 import net.minecraft.client.Minecraft;
@@ -10,34 +8,35 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
+import org.lwjgl.input.Keyboard;
 
 public class AntiGhost extends Module {
-	public AntiGhost() {
-		super("AntiGhost", "Discovers ghost blocks", Category.OFFENSE);
-		
-		this.setKey(Keyboard.KEY_G);
-		
-	}
-	
-	@Override
-	public void onEnable() {
-		super.onEnable();
-		Minecraft mc=Minecraft.getMinecraft();
+    public AntiGhost() {
+        super("AntiGhost", "Discovers ghost blocks", Category.OFFENSE);
+
+        this.setKey(Keyboard.KEY_G);
+
+    }
+
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        Minecraft mc = Minecraft.getMinecraft();
         NetHandlerPlayClient conn = mc.getNetHandler();
-        if (conn==null)
+        if (conn == null)
             return;
-        BlockPos pos=mc.thePlayer.getPosition();
-        for (int dx=-4; dx<=4; dx++)
-            for (int dy=-4; dy<=4; dy++)
-                for (int dz=-4; dz<=4; dz++) {
-                    C07PacketPlayerDigging packet=new C07PacketPlayerDigging(
-                            C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, 
-                            new BlockPos(pos.getX()+dx, pos.getY()+dy, pos.getZ()+dz),
+        BlockPos pos = mc.thePlayer.getPosition();
+        for (int dx = -4; dx <= 4; dx++)
+            for (int dy = -4; dy <= 4; dy++)
+                for (int dz = -4; dz <= 4; dz++) {
+                    C07PacketPlayerDigging packet = new C07PacketPlayerDigging(
+                            C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK,
+                            new BlockPos(pos.getX() + dx, pos.getY() + dy, pos.getZ() + dz),
                             EnumFacing.UP       // with ABORT_DESTROY_BLOCK, this value is unused
                     );
                     conn.addToSendQueue(packet);
                 }
         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("\2474requesting resent of blocks in 4x4 radius."));
         this.setToggled(false);
-	}
+    }
 }

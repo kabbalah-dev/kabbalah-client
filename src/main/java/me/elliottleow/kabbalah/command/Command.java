@@ -1,54 +1,53 @@
 package me.elliottleow.kabbalah.command;
 
+import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.security.auth.login.LoginException;
-
 public abstract class Command {
-	public String name, description, syntax;
-	public List<String> aliases = new ArrayList<String>();
-	public static String msgPrefix = "[Kabbalah]";
-	
-	public Command(String name, String description, String syntax, String... aliases) {
-		this.name = name;
-		this.description = description;
-		this.syntax = syntax;
-		this.aliases = Arrays.asList(aliases);
-	}
-	
-	public abstract void onCommand(String[] args, String command) throws LoginException, InterruptedException;
-	
-	public String getName() {
-		return name;
-	}
+    public static String msgPrefix = "[Kabbalah]";
+    public String name, description, syntax;
+    public List<String> aliases = new ArrayList<String>();
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Command(String name, String description, String syntax, String... aliases) {
+        this.name = name;
+        this.description = description;
+        this.syntax = syntax;
+        this.aliases = Arrays.asList(aliases);
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public abstract void onCommand(String[] args, String command) throws LoginException, InterruptedException;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getSyntax() {
-		return syntax;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setSyntax(String syntax) {
-		this.syntax = syntax;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public List<String> getAliases() {
-		return aliases;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setAliases(List<String> aliases) {
-		this.aliases = aliases;
-	}
+    public String getSyntax() {
+        return syntax;
+    }
+
+    public void setSyntax(String syntax) {
+        this.syntax = syntax;
+    }
+
+    public List<String> getAliases() {
+        return aliases;
+    }
+
+    public void setAliases(List<String> aliases) {
+        this.aliases = aliases;
+    }
 }

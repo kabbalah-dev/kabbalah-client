@@ -97,14 +97,4 @@ public class EntityUtils {
 	    return new Vec3(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
 	  }
 
-	  
-	  
-
-	  
-
-	  
-
-	  
-
-	  
 }
