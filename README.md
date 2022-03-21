@@ -1,8 +1,8 @@
 <div align="center">
 
-    # Kabbalah Client
-    ### See the [Wiki][wiki] for more info!
+# Kabbalah-Client
+### see the [Wiki][wiki] for more info!
 
-</div>  
+</div>
 
 [wiki]: https://github.com/kabbalah-dev/kabbalah-client/wiki
